@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 @Service
 public class MemberService {
@@ -28,5 +29,13 @@ public class MemberService {
             memberProfile.transferTo(new File(savePath));
         }
         return memberRepository.save(memberDTO);
+    }
+
+    public MemberDTO login(MemberDTO memberDTO) {
+        return memberRepository.login(memberDTO);
+    }
+
+    public MemberDTO loginCheck(Map<String, String> loginCheck) {
+        return memberRepository.loginCheck(loginCheck);
     }
 }

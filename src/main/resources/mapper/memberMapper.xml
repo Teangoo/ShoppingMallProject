@@ -15,4 +15,10 @@
         VALUES (#{memberId}, #{memberPassword}, #{memberName}, #{memberMobile}, #{postcode}, #{roadAddress},
                 #{jibunAddress}, #{detailAddress}, #{extraAddress}, #{memberProfileName})
     </insert>
+    <select id="login" parameterType="member" resultType="member">
+        select * from shopping_member_table where memberId = #{memberId} and memberPassword = #{memberPassword}
+    </select>
+    <select id="loginCheck" parameterType="java.util.HashMap" resultType="member">
+        select * from shopping_member_table where memberId = #{memberId} and memberPassword = #{memberPassword}
+    </select>
 </mapper>
