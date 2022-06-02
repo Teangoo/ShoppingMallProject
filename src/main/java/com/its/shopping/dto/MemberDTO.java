@@ -12,5 +12,9 @@ public class MemberDTO {
     private String memberMobile;
     private MultipartFile memberProfile;
     private String memberProfileName;
-    private String memberAddress;
+    private int postcode;
+    private String roadAddress;
+    private String jibunAddress;
+    private String detailAddress;
+    private String extraAddress;
 }
