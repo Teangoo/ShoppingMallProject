@@ -4,6 +4,7 @@ import com.its.shopping.dto.MemberDTO;
 import com.its.shopping.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -62,7 +63,6 @@ public class MemberController {
     @PostMapping("/loginCheck")
     public @ResponseBody String loginCheck(@RequestParam String memberId , @RequestParam String memberPassword){
         Map<String, String> loginCheck = new HashMap<>();
-        System.out.println("memberId = " + memberId + ", memberPassword = " + memberPassword);
         loginCheck.put("memberId",memberId);
         loginCheck.put("memberPassword",memberPassword);
         MemberDTO loginResult = memberService.loginCheck(loginCheck);
@@ -72,4 +72,30 @@ public class MemberController {
             return "no";
         }
     }
+    @GetMapping("logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "/index";
+    }
+
+    @GetMapping("/update")
+    public String updateForm(HttpSession session , Model model){
+        MemberDTO memberDTO = memberService.duplicateCheck((String) session.getAttribute("loginMemberId"));
+        model.addAttribute("updateMember",memberDTO );
+        return "/member/update";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute MemberDTO memberDTO) throws IOException {
+        memberService.update(memberDTO);
+        return "/index";
+    }
+
+    @GetMapping  ("/delete")
+    public String delete(@RequestParam("id") Long id, HttpSession session){
+        memberService.delete(id);
+        session.invalidate();
+        return "redirect:/";
+    }
+
 }

@@ -38,4 +38,21 @@ public class MemberService {
     public MemberDTO loginCheck(Map<String, String> loginCheck) {
         return memberRepository.loginCheck(loginCheck);
     }
+
+    public void update(MemberDTO memberDTO) throws IOException {
+        MultipartFile memberProfile = memberDTO.getMemberProfile();
+        String memberProfileName = memberProfile.getOriginalFilename();
+        memberProfileName = System.currentTimeMillis() + "-" + memberProfileName;
+        memberDTO.setMemberProfileName(memberProfileName);
+        String savePath = "/Users/taeyeonlee/member_img//" + memberProfileName;
+        if (!memberProfile.isEmpty()) {
+            memberProfile.transferTo(new File(savePath));
+            memberRepository.updateFile(memberDTO);
+        }
+        memberRepository.updateNoFile(memberDTO);
+    }
+
+    public void delete(Long id) {
+        memberRepository.delete(id);
+    }
 }

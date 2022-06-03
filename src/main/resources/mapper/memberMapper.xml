@@ -16,9 +16,37 @@
                 #{jibunAddress}, #{detailAddress}, #{extraAddress}, #{memberProfileName})
     </insert>
     <select id="login" parameterType="member" resultType="member">
-        select * from shopping_member_table where memberId = #{memberId} and memberPassword = #{memberPassword}
+        select *
+        from shopping_member_table
+        where memberId = #{memberId}
+          and memberPassword = #{memberPassword}
     </select>
     <select id="loginCheck" parameterType="java.util.HashMap" resultType="member">
-        select * from shopping_member_table where memberId = #{memberId} and memberPassword = #{memberPassword}
+        select *
+        from shopping_member_table
+        where memberId = #{memberId}
+          and memberPassword = #{memberPassword}
     </select>
+    <update id="updateFile" parameterType="member">
+        update shopping_member_table
+        set memberMobile      = #{memberMobile},
+            memberProfileName = #{memberProfileName},
+            postcode          = #{postcode},
+            roadAddress       = #{roadAddress},
+            jibunAddress      = #{jibunAddress},
+            detailAddress     = #{detailAddress},
+            extraAddress      = #{extraAddress} where id = #{id}
+    </update>
+    <update id="updateNoFile" parameterType="member">
+        update shopping_member_table
+        set memberMobile      = #{memberMobile},
+            postcode          = #{postcode},
+            roadAddress       = #{roadAddress},
+            jibunAddress      = #{jibunAddress},
+            detailAddress     = #{detailAddress},
+            extraAddress      = #{extraAddress} where id = #{id}
+    </update>
+    <delete id="delete" parameterType="Long">
+        delete from shopping_member_table where id = #{id}
+    </delete>
 </mapper>

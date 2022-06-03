@@ -28,4 +28,16 @@ public class MemberRepository {
     public MemberDTO loginCheck(Map<String, String> loginCheck) {
         return sql.selectOne("Member.loginCheck",loginCheck);
     }
+
+    public void updateFile(MemberDTO memberDTO) {
+        sql.update("Member.updateFile",memberDTO);
+    }
+
+    public void updateNoFile(MemberDTO memberDTO) {
+        sql.update("Member.updateNoFile",memberDTO);
+    }
+
+    public void delete(Long id) {
+        sql.delete("Member.delete",id);
+    }
 }
