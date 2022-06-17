@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="Cart">
+    <insert id="save" parameterType="cart">
+        insert into shopping_Product_Cart(id, product_id, cartDateTime, productName, price)
+        VALUES (#{id}, #{product_Id}, now(), #{productName}, #{price})
+    </insert>
+    <select id="findById" parameterType="Long" resultType="cart">
+        select *
+        from shopping_Product_Cart
+        where id = #{loginId}
+    </select>
+    <select id="findByProductId" parameterType="Long" resultType="product">
+        select *
+        from shopping_Product_List spl,
+             shopping_Product_Cart spc
+        where spc.id = #{loginId}
+          and spc.product_id = spl.product_Id
+    </select>
+    <update id="update" parameterType="java.util.HashMap">
+        update shopping_Product_Cart
+        set cartProductNum = #{cartProductNum},
+            price          = #{price}
+        where cart_Id = #{cart_Id}
+          and id = ${loginId}
+    </update>
+    <select id="Check" parameterType="java.util.HashMap" resultType="cart">
+        select *
+        from shopping_Product_Cart
+        where id = #{loginId}
+          and product_id = #{product_Id}
+    </select>
+    <delete id="delete" parameterType="Long">
+        delete
+        from shopping_Product_Cart
+        where cart_Id = #{cart_Id}
+    </delete>
+    <select id="orderCheck" resultType="cart">
+        select *
+        from shopping_Product_Cart
+        where
+        cart_Id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+    <delete id="orderCartDelete">
+        delete from shopping_Product_Cart where cart_Id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>
